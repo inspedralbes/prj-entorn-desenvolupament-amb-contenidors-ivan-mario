@@ -11,10 +11,9 @@
 # que monta el codi de la nostra aplicació com un volum per a cadascuna de les imatges
 
 
-version: '3'
 services:
   node:
-    image: node:19-buster-slim
+    build: ./node
     volumes:
       - ./node:/home/node/app
     ports:
@@ -23,32 +22,35 @@ services:
   httpd:
     build: ./front
     volumes:
-      - ./front:/home/node/app
+      - ./front:/var/www/html
     ports:
       - 80:80
     depends_on:
       - node
 
-db:
-  image: mysql:8.2.0
-  restart: always
-  environment:
-    MYSQL_ROOT_PASSWORD: root
-    MYSQL_DATABASE: persones
-    MYSQL_USER: user
-    MYSQL_PASSWORD: user
-  ports:
-    - 3306:3306
-  volumes:
-    - mysql_data:/var/lib/mysql
-    - ./mysql/dades.sql:/docker-entrypoint-initdb.d/dades.sql
+  db:
+    image: mysql:8.2.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: persones
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql/dades.sql:/docker-entrypoint-initdb.d/dades.sql
 
-phpmyadmin:
-  image: phpmyadmin/phpmyadmin
-  ports:
-    - "9090:80"
-  depends_on:
-    - db
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - "9091:80"  # Cambiado el puerto de 9090 a 9091
+    depends_on:
+      - db
 
 volumes:
   mysql_data:
+
+

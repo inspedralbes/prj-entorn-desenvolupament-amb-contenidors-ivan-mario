@@ -9,9 +9,9 @@
 
 <body>
     <?php
-    $servername = "localhost";
-    $username = "username";
-    $password = "password";
+    $servername = "db";
+    $username = "user"; // Asegúrate de que este valor coincida con MYSQL_USER en docker-compose.yml
+    $password = "user"; // Asegúrate de que este valor coincida con MYSQL_PASSWORD en docker-compose.yml
     $dbname = "persones";
 
     // Crear conexión
