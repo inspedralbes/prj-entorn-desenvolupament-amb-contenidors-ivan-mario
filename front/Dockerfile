@@ -9,15 +9,12 @@
 # O directament executar-lo en mode interactiu (-it enlloc de  -d)) : 
 # docker run -it -p 80:80 server_nginx
 
-FROM nginx:1.25.3-alpine
+FROM php:8.2-apache
+ 
+RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
 
+CMD ["apache2-foreground"]
 
-# Set the working directory to /app
-WORKDIR /usr/share/nginx/html
-
-COPY * .
-
-#expose port 8080 to the outside world
 EXPOSE 80
 
 
